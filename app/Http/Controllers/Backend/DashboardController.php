@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $hello = "Hello HR Venture!";
+        $hello = "Hello Bangladesh!";
         $test = "Batch 105";
         return view('test',compact('hello','test'));
     }
