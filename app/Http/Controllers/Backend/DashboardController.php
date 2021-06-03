@@ -8,8 +8,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $hello = "Hello Bangladesh!";
-        $test = "Batch 105";
-        return view('test',compact('hello','test'));
+        return view('backend.dashboard');
     }
 }
