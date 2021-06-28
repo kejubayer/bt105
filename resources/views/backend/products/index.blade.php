@@ -9,6 +9,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
+            <th scope="col">Photo</th>
             <th scope="col">Desc</th>
             <th scope="col">Action</th>
         </tr>
@@ -19,6 +20,7 @@
                 <th scope="row">{{$key+1}}</th>
                 <td>{{$product->name}}</td>
                 <td>{{number_format($product->price)}} <strong class="text-primary">৳</strong></td>
+                <td><img src="{{asset('upload/products/'.$product->photo)}}" alt="" width="50px"></td>
                 <td>{{$product->desc}}</td>
                 <td>
                     <a class="btn btn-warning" href="{{route('admin.product.edit',$product->id)}}" title="Edit Product">Edit</a>
