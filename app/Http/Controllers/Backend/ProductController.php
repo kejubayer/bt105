@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy('id','desc')->paginate(10);
+        $products = Product::orderBy('id', 'desc')->paginate(10);
         return view('backend.products.index', compact('products'));
     }
 
@@ -21,19 +22,49 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
-        $data = [
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'desc' => $request->input('desc'),
-        ];
-        if (!empty($request->file('photo'))){
-            $newName= 'product_'.time().'.'.$request->file('photo')->getClientOriginalExtension();
-            $request->photo->move('upload/products/',$newName);
-            $data['photo']=$newName;
+        try {
+         /*   $request->validate([
+                'name' => 'required|string|max:50',
+                'price' => 'required|max:11',
+                'desc' => 'required',
+                'photo' => 'image|max:2048'
+            ]);*/
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:50',
+                'price' => 'required|max:11',
+                'desc' => 'required',
+                'photo' => 'image|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+
+
+
+            $data = [
+                'name' => $request->input('name'),
+                'price' => $request->input('price'),
+                'desc' => $request->input('desc'),
+            ];
+            if (!empty($request->file('photo'))) {
+                $newName = 'product_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
+                $request->photo->move('upload/products/', $newName);
+                $data['photo'] = $newName;
+            }
+            Product::create($data);
+            return redirect()->route('admin.product');
+        } catch (\Exception $exception) {
+
+            $error = $exception->validator->getMessageBag();
+
+            return redirect()->back()->withErrors($error)->withInput();
         }
-        Product::create($data);
-        return redirect()->route('admin.product');
+
     }
 
     public function edit($id)
@@ -44,30 +75,42 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        $data = [
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'desc' => $request->input('desc'),
-        ];
-        if (!empty($request->file('photo'))){
-            if (file_exists('upload/products/'.$product->photo)){
-                unlink('upload/products/'.$product->photo);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:50',
+                'price' => 'required|max:11',
+                'desc' => 'required',
+                'photo' => 'image|max:2048'
+            ]);
+
+            $product = Product::find($id);
+            $data = [
+                'name' => $request->input('name'),
+                'price' => $request->input('price'),
+                'desc' => $request->input('desc'),
+            ];
+            if (!empty($request->file('photo'))) {
+                if (file_exists('upload/products/' . $product->photo)) {
+                    unlink('upload/products/' . $product->photo);
+                }
+                $newName = 'product_' . time() . '.' . $request->file('photo')->getClientOriginalExtension();
+                $request->photo->move('upload/products/', $newName);
+                $data['photo'] = $newName;
             }
-            $newName= 'product_'.time().'.'.$request->file('photo')->getClientOriginalExtension();
-            $request->photo->move('upload/products/',$newName);
-            $data['photo']=$newName;
+            $product->update($data);
+            return redirect()->route('admin.product');
+        } catch (\Exception $exception) {
+            $error = $exception->validator->getMessageBag();
+            return redirect()->back()->withErrors($error)->withInput();
         }
-        $product->update($data);
-        return redirect()->route('admin.product');
     }
 
     public function delete($id)
     {
         $product = Product::find($id);
 
-        if (file_exists('upload/products/'.$product->photo)){
-            unlink('upload/products/'.$product->photo);
+        if (file_exists('upload/products/' . $product->photo)) {
+            unlink('upload/products/' . $product->photo);
         }
 
         $product->delete();
