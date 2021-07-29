@@ -16,7 +16,10 @@ class LoginController extends Controller
     {
         $cred = $request->except('_token');
         if (auth()->attempt($cred)) {
-            return redirect()->route('admin.dashboard');
+            if (auth()->user()->role == 'admin'){
+                return redirect()->route('admin.dashboard');
+            }
+            return redirect()->route('home');
         }
         return redirect()->back();
     }
@@ -24,6 +27,6 @@ class LoginController extends Controller
     public function logout()
     {
         auth()->logout();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

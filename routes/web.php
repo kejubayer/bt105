@@ -13,41 +13,54 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[\App\Http\Controllers\Frontend\HomeController::class,'index'])->name('home');
+Route::get('/', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
+
+Route::get('register', [\App\Http\Controllers\Frontend\LoginController::class, 'register'])->name('register');
+Route::post('register', [\App\Http\Controllers\Frontend\LoginController::class, 'doRegister']);
 
 Route::get('login', [\App\Http\Controllers\Backend\LoginController::class, 'login'])->name('login');
 Route::post('login', [\App\Http\Controllers\Backend\LoginController::class, 'doLogin']);
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profile'])->name('profile');
+
+    Route::post('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profileEdit']);
+
     Route::get('logout', [\App\Http\Controllers\Backend\LoginController::class, 'logout'])->name('logout');
 
-    Route::prefix('admin')->group(function (){
+    Route::prefix('admin')->group(function () {
 
-        Route::get('/dashboard', [\App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/products', [\App\Http\Controllers\Backend\ProductController::class, 'index'])->name('admin.product');
+        Route::middleware('isAdmin')->group(function () {
 
-        Route::get('/products/create', [\App\Http\Controllers\Backend\ProductController::class, 'create'])->name('admin.product.create');
 
-        Route::post('/products/create', [\App\Http\Controllers\Backend\ProductController::class, 'store']);
+            Route::get('/dashboard', [\App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/products/edit/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'edit'])->name('admin.product.edit');
+            Route::get('/products', [\App\Http\Controllers\Backend\ProductController::class, 'index'])->name('admin.product');
 
-        Route::post('/products/edit/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'update']);
+            Route::get('/products/create', [\App\Http\Controllers\Backend\ProductController::class, 'create'])->name('admin.product.create');
 
-        Route::get('/products/delete/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'delete'])->name('admin.product.delete');
+            Route::post('/products/create', [\App\Http\Controllers\Backend\ProductController::class, 'store']);
 
-        Route::get('/users', [\App\Http\Controllers\Backend\UserController::class, 'index'])->name('admin.user');
+            Route::get('/products/edit/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'edit'])->name('admin.product.edit');
 
-        Route::get('/users/create', [\App\Http\Controllers\Backend\UserController::class, 'create'])->name('admin.user.create');
+            Route::post('/products/edit/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'update']);
 
-        Route::post('/users/create', [\App\Http\Controllers\Backend\UserController::class, 'store']);
+            Route::get('/products/delete/{id}', [\App\Http\Controllers\Backend\ProductController::class, 'delete'])->name('admin.product.delete');
 
-        Route::get('/users/edit/{id}', [\App\Http\Controllers\Backend\UserController::class, 'edit'])->name('admin.user.edit');
+            Route::get('/users', [\App\Http\Controllers\Backend\UserController::class, 'index'])->name('admin.user');
 
-        Route::post('/users/edit/{id}', [\App\Http\Controllers\Backend\UserController::class, 'update']);
+            Route::get('/users/create', [\App\Http\Controllers\Backend\UserController::class, 'create'])->name('admin.user.create');
 
-        Route::get('/users/delete/{id}', [\App\Http\Controllers\Backend\UserController::class, 'delete'])->name('admin.user.delete');
+            Route::post('/users/create', [\App\Http\Controllers\Backend\UserController::class, 'store']);
+
+            Route::get('/users/edit/{id}', [\App\Http\Controllers\Backend\UserController::class, 'edit'])->name('admin.user.edit');
+
+            Route::post('/users/edit/{id}', [\App\Http\Controllers\Backend\UserController::class, 'update']);
+
+            Route::get('/users/delete/{id}', [\App\Http\Controllers\Backend\UserController::class, 'delete'])->name('admin.user.delete');
+        });
     });
 });
 
