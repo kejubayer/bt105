@@ -11,7 +11,7 @@
                 <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
                 <p>
                     <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                    <a href="{{route('show.cart')}}" class="btn btn-secondary my-2">View Cart</a>
                 </p>
             </div>
         </div>
@@ -32,7 +32,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Add To Cart</button>
+                                    <a href="{{route('add.cart',$product->id)}}" class="btn btn-sm btn-outline-secondary">Add To Cart</a>
                                 </div>
                                 <small class="text-muted">{{number_format($product->price)}} <strong>৳</strong></small>
                             </div>

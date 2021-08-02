@@ -21,6 +21,10 @@ Route::post('register', [\App\Http\Controllers\Frontend\LoginController::class, 
 Route::get('login', [\App\Http\Controllers\Backend\LoginController::class, 'login'])->name('login');
 Route::post('login', [\App\Http\Controllers\Backend\LoginController::class, 'doLogin']);
 
+//card
+Route::get('add/cart/{id}',[\App\Http\Controllers\Frontend\CartController::class,'addToCart'])->name('add.cart');
+Route::get('cart/',[\App\Http\Controllers\Frontend\CartController::class,'showCart'])->name('show.cart');
+
 Route::middleware('auth')->group(function () {
 
     Route::get('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profile'])->name('profile');
