@@ -37,6 +37,30 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+            <div class="col-md-6">
+                <h2 class="text-center m-3">Product List</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach($orders as $order)
+                        <tr>
+                            <td>{{$order->order_no}}</td>
+                            <td>{{$order->price}} BDT</td>
+                            <td>{{$order->status}}</td>
+                        </tr>
+
+                    @endforeach
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
 @endsection

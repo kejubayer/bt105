@@ -27,6 +27,9 @@ Route::get('cart/',[\App\Http\Controllers\Frontend\CartController::class,'showCa
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('order',[\App\Http\Controllers\Frontend\OrderController::class,'order'])->name('order');
+    Route::post('order',[\App\Http\Controllers\Frontend\OrderController::class,'orderSubmit']);
+
     Route::get('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profile'])->name('profile');
 
     Route::post('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profileEdit']);

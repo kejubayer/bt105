@@ -47,6 +47,8 @@
             @if(count($cart) == 0)
             <h2 class="bg-warning text-center">No Product Added to Cart</h2>
                 <p class="text-center">Go <a href="{{route('home')}}">product page</a> and add product to cart</p>
+            @else
+                <a href="{{route('order')}}" class="btn btn-primary">Place Order</a>
             @endif
         </div>
     </div>

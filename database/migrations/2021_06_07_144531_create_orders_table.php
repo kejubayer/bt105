@@ -19,6 +19,11 @@ class CreateOrdersTable extends Migration
             $table->string('order_no');
             $table->decimal('price');
             $table->string('status');
+            $table->string('name');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('txn_id');
+            $table->string('method');
             $table->timestamps();
         });
     }
