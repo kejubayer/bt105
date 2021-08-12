@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('order',[\App\Http\Controllers\Frontend\OrderController::class,'order'])->name('order');
     Route::post('order',[\App\Http\Controllers\Frontend\OrderController::class,'orderSubmit']);
+    Route::get('order/show/{id}',[\App\Http\Controllers\Frontend\OrderController::class,'show'])->name('order.show');
 
     Route::get('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profile'])->name('profile');
 

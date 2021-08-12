@@ -2,6 +2,12 @@
 
 @section('main')
     <h2 class="text-center mt-3">Product list</h2>
+    @if(session()->has('message'))
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="{{session()->get('alert_class')}} text-center col-md-4">{{session()->get('message')}}</div>
+        </div>
+    @endif
     <a href="{{route('admin.product.create')}}" class="btn btn-primary">Add new Product</a>
     <table class="table">
         <thead>

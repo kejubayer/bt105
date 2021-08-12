@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     public function profile()
     {
-        $orders = Order::where('user_id',auth()->user()->id)->with('orderDetails')->get();
+        $orders = Order::where('user_id',auth()->user()->id)->with('orderDetails')->orderBy('id','desc')->get();
         return view('frontend.profile',compact('orders'));
     }
 

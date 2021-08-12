@@ -5,6 +5,11 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h2 class="text-center mt-3">Login Form</h2>
+
+            @if(session()->has('message'))
+                <div class="{{session()->get('alert_class')}} text-center">{{session()->get('message')}}</div>
+            @endif
+
             <form action="{{route('login')}}" method="post">
                 @csrf
                 <div class="mb-3">

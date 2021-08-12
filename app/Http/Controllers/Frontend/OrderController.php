@@ -16,6 +16,12 @@ class OrderController extends Controller
         return view('frontend.checkout', compact('cart'));
     }
 
+    public function show($id)
+    {
+        $order = Order::where('id', $id)->with('orderDetails')->first();
+        return view('frontend.order_show', compact('order'));
+    }
+
     public function orderSubmit(Request $request)
     {
 
@@ -48,7 +54,7 @@ class OrderController extends Controller
             $cart = session()->has('cart') ? session()->get('cart') : [];
             foreach ($cart as $item) {
                 $data_cart = [
-                    'order_id'=>$order->id,
+                    'order_id' => $order->id,
                     'product_id' => $item['product_id'],
                     'name' => $item['name'],
                     'price' => $item['price'],

@@ -45,6 +45,7 @@
                         <th scope="col">Order Number</th>
                         <th scope="col">Total Price</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,6 +55,9 @@
                             <td>{{$order->order_no}}</td>
                             <td>{{$order->price}} BDT</td>
                             <td>{{$order->status}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{route('order.show',$order->id)}}" title="Order Details">View</a>
+                            </td>
                         </tr>
 
                     @endforeach

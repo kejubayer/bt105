@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -42,10 +43,6 @@ class ProductController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
-
-
-
-
             $data = [
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),
@@ -57,6 +54,8 @@ class ProductController extends Controller
                 $data['photo'] = $newName;
             }
             Product::create($data);
+            Session::flash('message','Product created successfully!');
+            Session::flash('alert_class','alert-success');
             return redirect()->route('admin.product');
         } catch (\Exception $exception) {
 
@@ -98,8 +97,12 @@ class ProductController extends Controller
                 $data['photo'] = $newName;
             }
             $product->update($data);
+            Session::flash('message','Product updated successfully!');
+            Session::flash('alert_class','alert-success');
             return redirect()->route('admin.product');
         } catch (\Exception $exception) {
+            Session::flash('message',$exception->getMessage());
+            Session::flash('alert_class','alert-danger');
             $error = $exception->validator->getMessageBag();
             return redirect()->back()->withErrors($error)->withInput();
         }

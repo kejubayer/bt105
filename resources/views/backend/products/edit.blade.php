@@ -3,9 +3,16 @@
 @section('main')
 
    <div class="row">
+       <h2 class="text-center mt-3">Edit product</h2>
+       @if(session()->has('message'))
+           <div class="row m-3">
+               <div class="col-md-4"></div>
+               <div class="{{session()->get('alert_class')}} text-center col-md-4">{{session()->get('message')}}</div>
+           </div>
+       @endif
        <div class="col-md-3"></div>
        <div class="col-md-6">
-           <h2 class="text-center mt-3">Edit product</h2>
+
            @if ($errors->any())
                <div class="alert alert-danger">
                    <ul>
