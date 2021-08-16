@@ -22,18 +22,18 @@ Route::get('login', [\App\Http\Controllers\Backend\LoginController::class, 'logi
 Route::post('login', [\App\Http\Controllers\Backend\LoginController::class, 'doLogin']);
 
 //card
-Route::get('add/cart/{id}',[\App\Http\Controllers\Frontend\CartController::class,'addToCart'])->name('add.cart');
-Route::get('cart/',[\App\Http\Controllers\Frontend\CartController::class,'showCart'])->name('show.cart');
+Route::get('add/cart/{id}', [\App\Http\Controllers\Frontend\CartController::class, 'addToCart'])->name('add.cart');
+Route::get('cart/', [\App\Http\Controllers\Frontend\CartController::class, 'showCart'])->name('show.cart');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('order',[\App\Http\Controllers\Frontend\OrderController::class,'order'])->name('order');
-    Route::post('order',[\App\Http\Controllers\Frontend\OrderController::class,'orderSubmit']);
-    Route::get('order/show/{id}',[\App\Http\Controllers\Frontend\OrderController::class,'show'])->name('order.show');
+    Route::get('order', [\App\Http\Controllers\Frontend\OrderController::class, 'order'])->name('order');
+    Route::post('order', [\App\Http\Controllers\Frontend\OrderController::class, 'orderSubmit']);
+    Route::get('order/show/{id}', [\App\Http\Controllers\Frontend\OrderController::class, 'show'])->name('order.show');
 
-    Route::get('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profile'])->name('profile');
+    Route::get('profile', [\App\Http\Controllers\Frontend\LoginController::class, 'profile'])->name('profile');
 
-    Route::post('profile',[\App\Http\Controllers\Frontend\LoginController::class,'profileEdit']);
+    Route::post('profile', [\App\Http\Controllers\Frontend\LoginController::class, 'profileEdit']);
 
     Route::get('logout', [\App\Http\Controllers\Backend\LoginController::class, 'logout'])->name('logout');
 
@@ -68,6 +68,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/users/edit/{id}', [\App\Http\Controllers\Backend\UserController::class, 'update']);
 
             Route::get('/users/delete/{id}', [\App\Http\Controllers\Backend\UserController::class, 'delete'])->name('admin.user.delete');
+
+            Route::get('orders', [\App\Http\Controllers\Backend\OrderController::class,'index'])->name('admin.order');
+            Route::get('orders/{id}', [\App\Http\Controllers\Backend\OrderController::class,'show'])->name('admin.order.show');
+
+            Route::post('orders/status/{id}', [\App\Http\Controllers\Backend\OrderController::class,'status'])->name('admin.order.status');
         });
     });
 });

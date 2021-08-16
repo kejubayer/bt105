@@ -45,7 +45,7 @@ class OrderController extends Controller
                 'price' => $request->input('price'),
                 'user_id' => auth()->user()->id,
                 'order_no' => 'Order_' . time() . '_' . auth()->user()->id,
-                'status' => 'pending'
+                'status' => 'Pending'
             ];
 
             $order = Order::create($data);
