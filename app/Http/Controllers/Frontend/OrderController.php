@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -63,6 +65,8 @@ class OrderController extends Controller
                 OrderDetail::create($data_cart);
             }
             session()->forget('cart');
+            Mail::to(auth()->user()->email)->send(new OrderMail($order));
+            Mail::to('jubayer.hrv@gmail.com')->send(new OrderMail($order));
             DB::commit();
             return redirect()->route('profile');
         } catch (\Exception $exception) {

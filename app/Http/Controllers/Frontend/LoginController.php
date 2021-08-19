@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Test;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -34,7 +36,10 @@ class LoginController extends Controller
             'role' => 'customer',
             'password' => Hash::make($request->input('password')),
         ];
-        User::create($data);
+        $user = User::create($data);
+
+        Mail::to($user->email)->send(new Test());
+
         return redirect()->route('home');
     }
 
